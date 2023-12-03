@@ -17,9 +17,9 @@ fn find_12_13_14_games(filename: &str) -> u32 {
         .filter(|g| {
             let hands = g.hands.iter()
                 .filter(|h| {
-                    let valid_red = h.red <= 12;
-                    let valid_green = h.green <= 13;
-                    let valid_blue = h.blue <= 14;
+                    let valid_red = h.r <= 12;
+                    let valid_green = h.g <= 13;
+                    let valid_blue = h.b <= 14;
 
                     valid_red && valid_green && valid_blue
                 }).collect::<Vec<_>>();
@@ -40,20 +40,20 @@ fn find_power_of_games(filename: &str) -> u32 {
         g.hands.iter()
             .map(|g| g.to_owned())
             .reduce(|h, oh| {
-                let max_red = max(h.red, oh.red);
-                let max_green = max(h.green, oh.green);
-                let max_blue = max(h.blue, oh.blue);
+                let max_red = max(h.r, oh.r);
+                let max_green = max(h.g, oh.g);
+                let max_blue = max(h.b, oh.b);
 
                 Hand {
-                    red: max_red,
-                    green: max_green,
-                    blue: max_blue
+                    r: max_red,
+                    g: max_green,
+                    b: max_blue
                 }
             }).unwrap()
     }).map(|h| {
-        let r = u32::from(h.red);
-        let g = u32::from(h.green);
-        let b = u32::from(h.blue);
+        let r = u32::from(h.r);
+        let g = u32::from(h.g);
+        let b = u32::from(h.b);
         r * g * b
     })
         .sum()
@@ -86,9 +86,9 @@ fn get_hand_from_str(value: &str) -> Hand {
     let re = Regex::new(pattern).unwrap();
 
     let initial_hand = Hand {
-        red: 0,
-        green: 0,
-        blue: 0,
+        r: 0,
+        g: 0,
+        b: 0,
     };
 
     re.find_iter(value)
@@ -98,9 +98,9 @@ fn get_hand_from_str(value: &str) -> Hand {
             let color = num_and_color[1];
 
             match color {
-                "red" => h.red = num,
-                "green" => h.green = num,
-                "blue" => h.blue = num,
+                "red" => h.r = num,
+                "green" => h.g = num,
+                "blue" => h.b = num,
                 _ => {}
             }
 
@@ -116,13 +116,7 @@ struct Game {
 
 #[derive(Debug, Copy, Clone)]
 struct Hand {
-    red: u8,
-    green: u8,
-    blue: u8
+    r: u8,
+    g: u8,
+    b: u8
 }
-
-// impl fmt::Debug for Hand {
-//     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-//         write!(f, "red: {}, green: {}, blue: {}", self.red, self.green, self.blue)
-//     }
-// }
