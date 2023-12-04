@@ -43,7 +43,7 @@ fn sum_numbers_from_lines(filename: &str) -> u32 {
 
     input.lines()
         .map(|s| {
-            let matches: Vec<Vec<regex::Match>> = set.matches(s)
+            let matches: Vec<Vec<Match>> = set.matches(s)
                 .into_iter()
                 .map(|i| &regexes[i])
                 .map(|r| {
